@@ -151,7 +151,7 @@ EOF;
     $shell = $_default_shell;
     if($homedir != '' && !file_exists($homedir)){
         
-        $ret = mkdir($homedir,'0077',true) && touch($homedir.'/.proftpd.vum') && file_put_contents($homedir.'/.proftpd.vum',time());
+        $ret = mkdir($homedir,0777,true) && touch($homedir.'/.proftpd.vum') && file_put_contents($homedir.'/.proftpd.vum',time());
         if($ret != true){
             echo 'warning:mkdir faild';
         }
