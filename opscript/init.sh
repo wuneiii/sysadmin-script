@@ -52,3 +52,23 @@ function fsh(){
 
     fi
 }
+
+function finfo() {
+    fsh "$1" 'echo CPU: $( cat /proc/cpuinfo | grep "model name" | cut -d: -f2 | uniq); echo $(cat /proc/cpuinfo | grep processor | 
+wc -l) processor $(cat /proc/cpuinfo | grep -e "physical id" | sort | uniq | wc -l) physical $(cat /proc/cpuinfo | grep "cpu cores" 
+| head -n1 | awk "{print \$4}")core/physical $(cat /proc/cpuinfo | grep "siblings" | head -n1 | awk "{print \$3}")siblings/physical;
+dmidecode | grep -4 "System Information" |grep -E "(Manufacturer:|Product Name:)" | awk -F: "{print \$2}" | head -n2 | tr -d "\n" ; 
+echo ; dmidecode | grep -6 "Memory Device" | grep -v Mapp | grep -v Range | grep -v Installed | grep -v Enabled | grep Size | grep M
+B | uniq -c | awk "{print \$1*\$3/1024,\"GB\",\$1,\"x\",\$3,\$4}"'
+}
+
+
+function cdop() {
+    local user=`/usr/bin/id -nu`
+    local date=`date +%Y%m%d`
+    if [ "$user" = "root" ]; then
+        mkdir -p /root/opdir/$date && cd /root/opdir/$date/
+    else
+        mkdir -p /home/$user/opdir/$date && cd /home/$user/opdir/$date/
+    fi
+}
