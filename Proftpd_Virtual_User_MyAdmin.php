@@ -267,7 +267,7 @@ function proftpd_gen_password($passwd){
 
     if($passwd == '')
         return false;
-    $_defaults_alt = '}#f4ga~g%7hjg4&j(7mk?/!bj30ab-wi=6^7-$^R9F|GK5J#E6WT;IO[JN';
+    $_default_salt = '}#f4ga~g%7hjg4&j(7mk?/!bj30ab-wi=6^7-$^R9F|GK5J#E6WT;IO[JN';
     $md5 = md5($_default_salt);  
     $salt = '$1$'.substr($md5Str, 8, 8);
     return crypt($passwd,$salt);
