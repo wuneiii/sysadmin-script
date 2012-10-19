@@ -1,0 +1,14 @@
+#!/usr/bin/expect -f
+set IP [lindex $argv 0]
+set PASSWORD [lindex $argv 1]
+set timeout -1; 
+spawn  ssh -t $IP "sudo bash -x  -c 'test -d /root/.ssh || mkdir /root/.ssh;test -f /root/.ssh/authorized_keys && cat /home/xingxiaolong/remote.ssh/authorized_keys >> /root/.ssh/authorized_keys;test ! -f /root/.ssh/authorized_keys && mv  /home/xingxiaolong/remote.ssh/authorized_keys /root/.ssh/authorized_keys;chown root.root -R /root/.ssh;chmod 700 /root/.ssh ;chmod 600 /root/.ssh/authorized_keys'"
+
+expect { 
+"(yes/no)"  {send "yes\r";;exp_continue;}
+"xingxiaolong:"  {send "xiaolong,pass\r"}
+}
+
+interact
+
+exit

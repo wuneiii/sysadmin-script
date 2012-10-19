@@ -1,0 +1,17 @@
+#!/usr/bin/expect -f
+set IP [lindex $argv 0]
+set timeout -1; 
+#spawn ssh $IP "sudo bash -x -c 'cd /root/.ssh && chmod 600 authorized_keys'"
+#spawn ssh $IP "sudo bash -x -c 'cd /root/ && chmod 700 .ssh'"
+spawn scp /home/xingxiaolong/a $IP:/tmp/
+#spawn  ssh -t $IP "sudo bash -x  -c 'poweroff && exit'"
+#spawn "for i in `seq -w 1 99`;do ssh s$i.dong.shgt.qihoo.net 'uname -a';done"
+
+expect { 
+    "(yes/no)?"  {send "yes\r";;exp_continue;}
+    "password:"  {send "pass\r"}
+}
+
+interact
+
+exit

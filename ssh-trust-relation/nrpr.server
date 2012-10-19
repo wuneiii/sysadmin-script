@@ -1,0 +1,65 @@
+#!/bin/bash
+
+function start(){
+    echo 'Starting'
+
+    cd `dirname $0` || exit;
+    
+    local_ip=`ifconfig |sed -n -e '/inet addr:10/p'|sed -e 's/^[^:]*:\|\s\bBcast.*$//g'|head -n1`
+    #local_ip=`hostname -i|awk '{print $1}'`
+    if [[ -z ${local_ip} ]]
+    then
+            echo 'cat not get local_ip';
+    fi
+    
+    nrpe_config=../conf/nrpe.cfg
+    sed -i -e "s/server_address=127.0.0.1/server_address=${local_ip}/g" ${nrpe_config}
+    if [[ $? != 0 ]]
+    then
+        echo 'local_ip replace fail'
+    fi
+    
+    
+    ./nrpe -c ../conf/nrpe.cfg -d
+    echo 'Start dong'
+    pstree |grep nrpe
+}
+function  stop(){
+        echo 'Stopping'
+        killall -9 nrpe
+
+}
+
+function restart(){
+
+        stop
+        sleep 1
+        start
+
+}
+function print_help(){
+
+        echo '[Usage] nrpe.server (start|stop|restart)'
+
+}
+
+case "$1" in
+        --help)
+                print_help
+                ;;
+        -h)
+                print_help
+                ;;
+        start)
+                start
+                ;;
+        restart)
+                restart
+                ;;
+        stop)
+                stop
+                ;;
+        *)
+                print_help
+                ;;
+esac
