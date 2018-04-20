@@ -1,7 +1,7 @@
 #!/bin/bash
 
 umask 0022
-alias initpass="echo 'sysinitABCD@ZJM13F' |passwd root --stdin"
+alias initpass="echo 'chushimima' |passwd root --stdin"
 export EDITOR="/usr/bin/vim"
 host=`hostname`
 export PS1="\[\e]2;\u@${host}\a\]\[\e[01;36m\]\u\[\e[01;35m\]@\[\e[01;33m\]${host}\[\e[00m\]:\[\e[01;34m\]\w\$\[\e[00m\] "
