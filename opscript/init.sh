@@ -52,6 +52,24 @@ function fsh(){
 
     fi
 }
+function fcp() { 
+
+    _tag=$1
+    _local=$2
+    _remote=$3
+    if [[ $# < 3 ]]
+    then
+        lh ${_tag}
+        return
+    fi
+
+    for server in `lh ${_tag}`
+    do
+        echo -e "\033[40;33;1m${server}\033[0m"
+        scp -r $_local  `id -un`@${server}:${_remote}
+    done
+
+}
 
 function finfo() {
     fsh "$1" 'echo CPU: $( cat /proc/cpuinfo | grep "model name" | cut -d: -f2 | uniq); echo $(cat /proc/cpuinfo | grep processor | 
